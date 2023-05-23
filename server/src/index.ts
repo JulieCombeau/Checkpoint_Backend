@@ -4,7 +4,9 @@ import cors from "cors";
 import { ApolloServer } from "apollo-server";
 import datasource from "./db";
 import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
-// import { buildSchema } from "type-graphql";
+import { buildSchema } from "type-graphql";
+import { CountryResolver } from "./resolver/CountryResolver";
+
 
 
 const app = express();
@@ -15,12 +17,12 @@ app.use(cors({ origin: "http://localhost:3000" }));
 const start = async (): Promise<void> => {
   await datasource.initialize();
 
-  // const schema = await buildSchema({
-  //   resolvers: [],
-  // });
+  const schema = await buildSchema({
+    resolvers: [CountryResolver],
+  });
 
   const server = new ApolloServer({
-    // schema,
+    schema,
     csrfPrevention: true,
     cache: "bounded",
     plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
