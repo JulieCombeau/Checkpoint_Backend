@@ -7,8 +7,6 @@ import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 import { buildSchema } from "type-graphql";
 import { CountryResolver } from "./resolver/CountryResolver";
 
-
-
 const app = express();
 
 app.use(express.json());

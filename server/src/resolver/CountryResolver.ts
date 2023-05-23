@@ -1,6 +1,6 @@
-import { Query, Resolver } from "type-graphql";
+import { Query, Resolver, Mutation, Arg } from "type-graphql";
 import datasource from "../db";
-import Country from "../entity/Country";
+import Country, { CountryInput } from "../entity/Country";
 
 @Resolver(Country)
 export class CountryResolver {
@@ -8,4 +8,10 @@ export class CountryResolver {
   async countries(): Promise<Country[]> {
     return await datasource.getRepository(Country).find();
   }
+
+  @Mutation(() => Country)
+  async createCountry(@Arg("data") data: CountryInput): Promise<Country> {
+    return await datasource.getRepository(Country).save(data);
+  }
+
 }
