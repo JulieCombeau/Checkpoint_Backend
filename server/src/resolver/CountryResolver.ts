@@ -9,6 +9,16 @@ export class CountryResolver {
     return await datasource.getRepository(Country).find();
   }
 
+  @Query(() => Country)
+  async getOneCountrybyCode(@Arg("code") code: string): Promise<Country> {
+    const countryCode = await datasource.getRepository(Country).findOne({
+        where: {code}
+    })
+    if (countryCode === null) throw new Error("Country not found");
+
+    return countryCode;
+  }
+
   @Mutation(() => Country)
   async createCountry(@Arg("data") data: CountryInput): Promise<Country> {
     return await datasource.getRepository(Country).save(data);
